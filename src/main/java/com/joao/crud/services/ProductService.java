@@ -1,4 +1,4 @@
-package com.joao.crud.apps;
+package com.joao.crud.services;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +21,7 @@ import com.joao.crud.repositories.ProductRepository;
 import jakarta.validation.Valid;
 
 @Service
-public class ProductApp {
+public class ProductService {
     
     @Autowired
     private ProductRepository productRepository;

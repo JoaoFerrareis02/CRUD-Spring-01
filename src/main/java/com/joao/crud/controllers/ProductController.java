@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.joao.crud.apps.ProductApp;
 import com.joao.crud.dtos.ProductRecordDto;
 import com.joao.crud.models.ProductModel;
+import com.joao.crud.services.ProductService;
 
 import jakarta.validation.Valid;
 
@@ -23,7 +23,7 @@ import jakarta.validation.Valid;
 public class ProductController {
  
     @Autowired
-    private ProductApp productApp;
+    private ProductService productApp;
 
     @PostMapping("/products")
     public ResponseEntity<ProductModel> saveProduct(@RequestBody @Valid ProductRecordDto productRecordDto){

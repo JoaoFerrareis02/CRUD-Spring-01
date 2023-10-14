@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.UUID;
 
+import org.springframework.hateoas.RepresentationModel;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,7 +18,7 @@ import lombok.Setter;
 @Table(name = "TB_PRODUCTS")
 @Getter
 @Setter
-public class ProductModel implements Serializable{
+public class ProductModel extends RepresentationModel<ProductModel> implements Serializable{
     
     private static final long serialVersionUID = 1L;
 

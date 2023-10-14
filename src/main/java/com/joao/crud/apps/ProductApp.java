@@ -4,12 +4,16 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.joao.crud.controllers.ProductController;
 import com.joao.crud.dtos.ProductRecordDto;
 import com.joao.crud.models.ProductModel;
 import com.joao.crud.repositories.ProductRepository;
@@ -29,7 +33,14 @@ public class ProductApp {
     }
 
     public ResponseEntity<List<ProductModel>> getAllProducts() {
-        return ResponseEntity.status(HttpStatus.OK).body(productRepository.findAll());
+        List<ProductModel> productsList = productRepository.findAll();
+        if (!productsList.isEmpty()) {
+            for (ProductModel productModel : productsList) {
+                UUID id = productModel.getIdProduct();
+                productModel.add(linkTo(methodOn(ProductController.class).getOneProduct(id)).withSelfRel());
+            }
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(productsList);
     }
 
     public ResponseEntity<Object> getOneProduct(UUID id) {
@@ -37,6 +48,7 @@ public class ProductApp {
         if (product.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product not found.");
         }
+        product.get().add(linkTo(methodOn(ProductController.class).getAllProducts()).withRel("Products list"));
         return ResponseEntity.status(HttpStatus.OK).body(product.get());
     }
 
